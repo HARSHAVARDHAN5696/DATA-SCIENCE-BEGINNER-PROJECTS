@@ -1,0 +1,151 @@
+#!/usr/bin/env python
+# coding: utf-8
+
+# In[1]:
+
+
+import pandas as pd
+import numpy as np
+import plotly.express as px
+import plotly.graph_objects as go
+import plotly.io as pio
+pio.templates.default = 'plotly_white'
+
+
+# In[2]:
+
+
+data = pd.read_csv(r"C:\Users\HARSHA VARDHAN\Desktop\Datasets\t20-world-cup-22.csv")
+print(data.head())
+
+
+# In[4]:
+
+
+# Now lets look at the number of matches won by each team
+figure = px.bar(data, x= 'winner', title = 'matches won by each team')
+figure.show()
+
+
+# In[7]:
+
+
+# Now lets look at the number of matches won by teams batting first or second
+won_by = data['won by'].value_counts()
+label = won_by.index
+counts = won_by.values
+colors = ['gold', 'lightgreen']
+
+fig = go.Figure(data= go.Pie(labels = label, values = counts))
+fig.update_layout(title_text = 'Number of matches won by wickets or runs')
+fig.update_traces(hoverinfo = 'label+percent', textinfo = 'value', textfont_size = 30, marker = dict(colors = colors, 
+                                                                                                    line = dict(color='black', width = 3)))
+fig.show()
+
+
+# In[9]:
+
+
+# Now lets have a look at toss desicions by teams
+toss = data['toss decision'].value_counts()
+label = toss.index
+counts = toss.values
+color = ['blue','red']
+
+fig = go.Figure(data = go.Pie(labels = label, values= counts))
+fig.update_layout(title_text = 'toss decisions by teams')
+fig.update_traces(hoverinfo = 'label+percent', textinfo = 'value', textfont_size = 30,
+                 marker = dict(colors = colors, line = dict(color = 'black', width = 3)))
+fig.show()
+
+
+# In[10]:
+
+
+# Now lets have a look up in the top scorers of the world cup
+figure = px.bar(data,
+               x = 'top scorer', y= 'highest score', title = 'top scorers in this world cup 2022')
+figure.show()
+
+
+# In[11]:
+
+
+# Now lets have a look at the number of players got the man of the match award
+fig = px.bar(data, x='player of the match', title='mom')
+fig.show()
+
+
+# In[12]:
+
+
+# Now lets have a look at the bowlers with the best figures
+fig = px.bar(data, x='best bowler', title='Best bowlers')
+fig.show()
+
+
+# In[18]:
+
+
+# Now lets check the runs scored in first and second innings at each venue in the 2022 T20 worls cup
+fig = go.Figure()
+fig.add_trace(go.Bar(
+    x=data["venue"],
+    y=data["first innings score"],
+    name='First Innings Runs',
+    marker_color='lightgreen'
+))
+fig.add_trace(go.Bar(
+    x=data["venue"],
+    y=data["second innings score"],
+    name='Second Innings Runs',
+    marker_color='orange'
+))
+fig.update_layout(barmode='group', 
+                  xaxis_tickangle=-45, 
+                  title="Best Stadiums to Bat First or Chase")
+fig.show()            
+
+
+# In[19]:
+
+
+#Now lets compare the number of wickets lost lost in both the innings seperately
+fig = go.Figure()
+fig.add_trace(go.Bar(
+    x=data["venue"],
+    y=data["first innings wickets"],
+    name='First Innings Wickets',
+    marker_color='lightgreen'
+))
+fig.add_trace(go.Bar(
+    x=data["venue"],
+    y=data["second innings wickets"],
+    name='Second Innings Wickets',
+    marker_color='orange'
+))
+fig.update_layout(barmode='group', 
+                  xaxis_tickangle=-45, 
+                  title="Best Stadiums to Bat First or Chase")
+fig.show()     
+
+
+# In[20]:
+
+
+# From the visualization we have found that:
+#England won the most number of matches
+#Virat Kohli scored highest in the most number of matches
+#Sam Curran was the best bowler in the most number of matches
+#More teams won by batting first
+#More teams decided to bat first
+#SCG was the best stadium to bat first
+#SCG was the best stadium to defend the target in the World Cup
+#The Optus Stadium was the best stadium to bowl first
+
+
+# In[ ]:
+
+
+
+
